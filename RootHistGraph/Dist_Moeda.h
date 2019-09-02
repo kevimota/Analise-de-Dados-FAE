@@ -29,8 +29,12 @@ int Moeda(int N) {
 //Essa função usa os dados da função Moeda, para salvar os dados de dispersão numero de jogadas no arquivo Dist_Moeda.root
 void Dist_Moeda(int jogs = 1000){
     jog_moeda moeda;
+    
     //Criando o arquivo e a tree
-    TFile *file = new TFile("Dist_Moeda.root","RECREATE");
+    TString dir = gSystem->UnixPathName(__FILE__);
+    dir.ReplaceAll("Dist_Moeda.h","");
+
+    TFile *file = new TFile(Form("%sDist_Moeda.root",dir.Data()),"RECREATE");
     TTree *tree = new TTree("Disp_Moeda", "Dispersão de um número de caras jogando moedas.");
     
     //Associando um branch à struct, duas leaves são criadas para os dados de dispersão e número de jogadas
@@ -52,7 +56,11 @@ void Dist_Moeda(int jogs = 1000){
 void PrintData(){
     //Criando a struct, o arquivo e a tree
     jog_moeda moeda;
-    TFile *file = new TFile("Dist_Moeda.root");
+
+    TString dir = gSystem->UnixPathName(__FILE__);
+    dir.ReplaceAll("Dist_Moeda.h","");
+
+    TFile *file = new TFile(Form("%sDist_Moeda.root",dir.Data()));
     TTree *tree = (TTree*) file->Get("Disp_Moeda");
     
     //Associando os endereços do Branch à struct

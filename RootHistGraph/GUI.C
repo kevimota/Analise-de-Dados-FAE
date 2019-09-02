@@ -100,7 +100,10 @@ void MyMainFrame::DesenhaFisGeral() {
    fCanvas->Divide(2,2);
    
    // Aqui é feito todo o processo para leitura dos dados no arquivo
-   TFile *file = new TFile("FisGeral2001_2.root");
+   TString dir = gSystem->UnixPathName(__FILE__);
+   dir.ReplaceAll("GUI.C","");
+   
+   TFile *file = new TFile(Form("%sFisGeral2001_2.root", dir.Data()));
    TTree *tree = (TTree*) file->Get("fisgeral")->Clone();
    
    //Os histogramas retirados do file

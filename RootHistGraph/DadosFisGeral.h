@@ -8,17 +8,21 @@
 #include "TGraph.h"
 #include "TAxis.h"
 #include "TCanvas.h"
+#include "TSystem.h"
 
 /*
 Recebendo um arquivo csv (DadosFisGeral2001_2.csv) e salvando no arquivo "FisGeral2001_2.root".
 */
 void DadosFisGeral(){
     //Criamos o arquivo e a tree
-    TFile *f = new TFile("FisGeral2001_2.root","RECREATE");
+    TString dir = gSystem->UnixPathName(__FILE__);
+    dir.ReplaceAll("DadosFisGeral.h","");
+    
+    TFile *f = new TFile(Form("%sFisGeral2001_2.root",dir.Data()),"RECREATE");
     TTree *tree = new TTree("fisgeral","Dados da turma de fisica geral 2001.2");
     
     //A tree recebe os valores contidos no arquivo, os valores são delimitados por uma vírgula.
-    tree->ReadFile("DadosFisGeral2001_2.csv","idade/I,massa/D,altura/D",',');
+    tree->ReadFile(Form("%sDadosFisGeral2001_2.csv",dir.Data()),"idade/I,massa/D,altura/D",',');
     
     //Inicializando valores para associar aos branches da tree
     int idade;
