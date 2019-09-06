@@ -13,6 +13,7 @@ struct jog_moeda
     {
         int disp;
         int n_jog;
+        double freq;
     };
 
 //função que entrega o numero de resultados cara de N jogadas de uma moeda;
@@ -38,12 +39,15 @@ void Dist_Moeda(int jogs = 1000){
     TTree *tree = new TTree("Disp_Moeda", "Dispersão de um número de caras jogando moedas.");
     
     //Associando um branch à struct, duas leaves são criadas para os dados de dispersão e número de jogadas
-    tree->Branch("moeda",&moeda.disp,"disp/I:n_jog/I");
+    tree->Branch("moeda",&moeda.disp,"disp/I:n_jog/I:freq/D");
+    int n_caras;
 
     //Dados do Branch são calculados e populados 
     for (auto i = 2; i < jogs+2; i = i + 2){
+        n_caras = Moeda(i);
         moeda.n_jog = i;
-        moeda.disp = Moeda(moeda.n_jog) - moeda.n_jog/2;
+        moeda.freq = (double)n_caras/moeda.n_jog;
+        moeda.disp = n_caras - moeda.n_jog/2;
         tree->Fill();
     }
 

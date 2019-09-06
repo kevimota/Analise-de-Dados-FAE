@@ -172,10 +172,55 @@ void MyMainFrame::DesenhaMoeda() {
    //Canvas criado, associado ao canvas embutido, limpo e selecionado
    TCanvas *fCanvas = fEcanvas->GetCanvas();
    fCanvas->Clear();
-   fCanvas->cd();
+   fCanvas->Divide(2,1);
    
-   //Função desenha o gráfico de disp x n. de jogadas
-   PrintData();
+   jog_moeda moeda;
+
+   TString dir = gSystem->UnixPathName(__FILE__);
+   dir.ReplaceAll("GUI.C","");
+   TFile *file = new TFile(Form("%sDist_Moeda.root",dir.Data()));
+   TTree *tree = (TTree*) file->Get("Disp_Moeda");
+   
+   //Associando os endereços do Branch à struct
+   tree->SetBranchAddress("moeda",&moeda.disp);
+   
+   //O número de entradas da tree e os arrays são criados (para o gráfico)
+   auto nentries = tree->GetEntries();
+   double x[nentries], y1[nentries], y2[nentries];
+   
+   //Os valores das arrays são populadas
+   for (auto i = 0; i != nentries; ++i){
+      tree->GetEntry(i);
+      x[i] = moeda.n_jog;
+      y1[i] = moeda.disp;
+      y2[i] = moeda.freq;
+   }
+   
+   //Gráfico criado
+   TGraph *grdisp = new TGraph(nentries,x,y1);
+   TGraph *grfreq = new TGraph(nentries,x,y2);
+   
+   //Perfumando o Gráfico e desenhado-o no Canvas
+   grdisp->SetTitle("Disp. x N. de jogadas");
+   grdisp->GetXaxis()->SetTitle("N. de jogadas");
+   grdisp->GetXaxis()->SetRangeUser(0,2*nentries);
+   grdisp->GetYaxis()->SetTitle("Disp.");
+   grdisp->SetLineColor(4);
+   grdisp->SetLineWidth(2);
+
+   grfreq->SetTitle("Freq. Relativa x N. de jogadas");
+   grfreq->GetXaxis()->SetTitle("N. de jogadas");
+   grfreq->GetXaxis()->SetRangeUser(0,2*nentries);
+   grfreq->GetYaxis()->SetTitle("Freq. Relativa");
+   grfreq->SetLineColor(4);
+   grfreq->SetLineWidth(2);
+   
+   fCanvas->cd(1);
+   grdisp->Draw();
+   fCanvas->cd(2);
+   grfreq->Draw();
+
+   fCanvas->cd();
 
    // canvas é atualizado
    fCanvas->Update();
