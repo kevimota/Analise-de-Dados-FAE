@@ -32,9 +32,13 @@ void Ex16(){
     TF1 *f1 = new TF1("f1", "[0]*TMath::Gaus(x,[1],[2]) + [3]*TMath::Exp([4]*x)");
     f1->SetParameters(43.5672,2.96847,0.27741,535.418,-1.01169);
     h1->Fit(f1);
+    TCanvas *h_canvas = new TCanvas("Hist");
+    h_canvas->SetLogx();
+    h_canvas->SetLogy();
+    h_canvas->cd();
     h1->Draw();
 
-    TCanvas *c = new TCanvas();
+    TCanvas *c = new TCanvas("Dist");
     TF1 *g = new TF1("g", "gaus", 2,5);
     g->SetParameters(f1->GetParameters());
     cout << "O número de eventos é: " << round(g->Integral(2,5)) << endl;
