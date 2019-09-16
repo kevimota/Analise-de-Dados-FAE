@@ -3,8 +3,8 @@ onde serão colocados um Embedded Canvas (fEcanvas) e um Horizontal Frame no qua
 botões.
 1º botão - Apresenta os dados da Turma de Fisica Geral 2001.2 contidos no livro Estimativas e Erros
 em experimentos de Física.
-2º botão - Faz um grafico de dispersão do número de caras de uma moeda pelo número de jogadas conforme
-feito no livro Métodos Estatísticos em Física Experiemental.
+2º botão - Faz um grafico de dispersão e frequência relariva do número de caras de uma moeda pelo
+número de jogadas conforme feito no livro Métodos Estatísticos em Física Experiemental.
 3º botão - Salva uma imagem do desenho feito no Canvas.
 4º botão - Fecha o programa. É interessante usar esse botão para fechar e não o da janela, pois ele
 finaliza toda a sessão sem erros. */
@@ -184,7 +184,7 @@ void MyMainFrame::DesenhaMoeda() {
    //Associando os endereços do Branch à struct
    tree->SetBranchAddress("moeda",&moeda.disp);
    
-   //O número de entradas da tree e os arrays são criados (para o gráfico)
+   //O número de entradas da tree e os arrays são criados (para os gráficos)
    auto nentries = tree->GetEntries();
    double x[nentries], y1[nentries], y2[nentries];
    
@@ -196,11 +196,11 @@ void MyMainFrame::DesenhaMoeda() {
       y2[i] = moeda.freq;
    }
    
-   //Gráfico criado
+   //Gráficos criado
    TGraph *grdisp = new TGraph(nentries,x,y1);
    TGraph *grfreq = new TGraph(nentries,x,y2);
    
-   //Perfumando o Gráfico e desenhado-o no Canvas
+   //Perfumando os Gráficos e desenhado-o no Canvas
    grdisp->SetTitle("Disp. x N. de jogadas");
    grdisp->GetXaxis()->SetTitle("N. de jogadas");
    grdisp->GetXaxis()->SetRangeUser(0,2*nentries);

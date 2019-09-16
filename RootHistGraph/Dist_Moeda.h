@@ -27,7 +27,7 @@ int Moeda(int N) {
     return res_cara;
 }
 
-//Essa função usa os dados da função Moeda, para salvar os dados de dispersão numero de jogadas no arquivo Dist_Moeda.root
+//Essa função usa os dados da função Moeda, para salvar os dados de dispersão, frequência relativa e numero de jogadas no arquivo Dist_Moeda.root
 void Dist_Moeda(int jogs = 1000){
     jog_moeda moeda;
     
@@ -38,7 +38,7 @@ void Dist_Moeda(int jogs = 1000){
     TFile *file = new TFile(Form("%sDist_Moeda.root",dir.Data()),"RECREATE");
     TTree *tree = new TTree("Disp_Moeda", "Dispersão de um número de caras jogando moedas.");
     
-    //Associando um branch à struct, duas leaves são criadas para os dados de dispersão e número de jogadas
+    //Associando um branch à struct, duas leaves são criadas para os dados de dispersão, frequência relativa e número de jogadas
     tree->Branch("moeda",&moeda.disp,"disp/I:n_jog/I:freq/D");
     int n_caras;
 
