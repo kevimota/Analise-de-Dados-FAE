@@ -31,12 +31,12 @@ void Ex16(){
 
     TF1 *f1 = new TF1("f1", "[0]*TMath::Gaus(x,[1],[2]) + [3]*TMath::Exp([4]*x)");
     f1->SetParameters(43.5672,2.96847,0.27741,535.418,-1.01169);
-    h1->Fit(f1,"L");
+    h1->Fit(f1);
     h1->Draw();
 
     TCanvas *c = new TCanvas();
     TF1 *g = new TF1("g", "gaus", 2,5);
-    g->SetParameters(f1->GetParameter(0),f1->GetParameter(1), f1->GetParameter(2));
+    g->SetParameters(f1->GetParameters());
     cout << "O número de eventos é: " << round(g->Integral(2,5)) << endl;
     
     c->cd();
@@ -83,7 +83,7 @@ void GetGausParameter(){
 
     TH1D *h1 = (TH1D*)file->Get("h1");
 
-    TF1 *f1 = new TF1("f1", "[0]*TMath::Gaus(x,[1],[2])");
+    TF1 *f1 = new TF1("f1", "gaus");
     f1->SetParameters(1,3,0.5);
     h1->Fit(f1,"","",2.7,3.3);
     h1->Draw();
