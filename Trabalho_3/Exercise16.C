@@ -20,7 +20,7 @@ Fill an histogram with 60 bins between 2 and 5 with the invariant mass for the e
 Create a function composed of the gaussian plus the exponential and fit to the histogram. Do the fit works ? What do you need to do to make the fit working ?
 Compute the number of peak events, by using the integral of the Gaussian function. Use TF1::IntegralError to compute also its error. */
 
-void Ex16(){
+void ex16(){
     TString dir = gSystem->UnixPathName(__FILE__);
     dir.ReplaceAll("Exercise16.C","");
     
@@ -94,7 +94,7 @@ void GetGausParameter(){
     cout << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << endl;
 }
 
-void GetExpParameter(){
+void getExpParameter(){
     TString dir = gSystem->UnixPathName(__FILE__);
     dir.ReplaceAll("Exercise16.C","");
     

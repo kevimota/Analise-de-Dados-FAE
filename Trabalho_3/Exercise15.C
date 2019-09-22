@@ -15,7 +15,7 @@ Fit the histogram using a Gaussian function
 Get the value and error of the width of the gaussian
 Retrieve the fit result and print the correlation matrix. */
 
-void Ex15(){
+void ex15(){
     //criando o histograma e enchendo com números de uma distribuição normal
     TH1D *hist = new TH1D("histgaussian", "Gaussian Histogram", 50, -5, 5);
     hist->FillRandom("gaus",10000);

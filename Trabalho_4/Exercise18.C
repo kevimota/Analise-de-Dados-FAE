@@ -18,7 +18,7 @@ After, fit the model to the data and show the resulting fitted function.
 At the end save the RooWorkspace object in a file, but before remember to import, by calling RooWorkspace::import(data), the data set you have generated
 in the workspace. The workspace does not contains only the model, but also the data, allowing then to re-perform the analysis later on. */
 
-void Ex18(int n = 1000) {
+void ex18(int n = 1000) {
     
     RooWorkspace w("w");
 

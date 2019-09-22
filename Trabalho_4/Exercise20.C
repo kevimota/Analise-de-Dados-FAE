@@ -17,7 +17,7 @@ Create first the composite model formed by a Gaussian signal over a falling expo
 attached file, Hgg.txt and create a RooDataSet class with all the data. Perform then an extended unbinned fit to the data to extract the Higgs
 signal strength. Plot the resulting fit function from the fit with separate signal and background components. */
 
-void Ex20() {
+void ex20() {
     TString dir = gSystem->UnixPathName(__FILE__);
     dir.ReplaceAll("Exercise20.C","");
 
@@ -49,7 +49,7 @@ void Ex20() {
 
     RooDataSet data("data", "data", *x, Import(*t));
 
-    RooFitResult *r = model->fitTo(data, Minimizer("Minuit2"), Save(true), Offset(true));
+    RooFitResult *r = model->fitTo(data, Minimizer("Genetic"));
 
     RooPlot *p = x->frame();
     data.plotOn(p);
