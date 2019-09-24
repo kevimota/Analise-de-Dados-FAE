@@ -16,7 +16,9 @@
 #include "TLorentzVector.h"
 
 // auxiliary function for fitting
-Double_t signal(Double_t *x, Double_t *par);
+Double_t signal1(Double_t *x, Double_t *par);
+Double_t signal2(Double_t *x, Double_t *par);
+Double_t signal3(Double_t *x, Double_t *par);
 Double_t backgr(Double_t *x, Double_t *par);
 Double_t fitfun(Double_t *x, Double_t *par);
 
@@ -85,8 +87,8 @@ dimuon::~dimuon()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
- _outFile->Close();
- delete _outFile;
+   _outFile->Close();
+   delete _outFile;
 }
 
 Int_t dimuon::GetEntry(Long64_t entry)
@@ -165,7 +167,7 @@ Int_t dimuon::Cut(Long64_t entry)
   double mass = dimuon_p4->M();
   double pt1 = muonN_p4->Pt();
   double pt2 = muonP_p4->Pt();
-  //if(pt1<10 || pt2<10) return -1;
+  if(pt1<10 || pt2<10) return -1;
   if(mass>200) return -1;
   //cout << "Cut mass:" << mass << endl;
 
