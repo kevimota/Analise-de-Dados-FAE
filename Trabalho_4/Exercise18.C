@@ -18,7 +18,7 @@ After, fit the model to the data and show the resulting fitted function.
 At the end save the RooWorkspace object in a file, but before remember to import, by calling RooWorkspace::import(data), the data set you have generated
 in the workspace. The workspace does not contains only the model, but also the data, allowing then to re-perform the analysis later on. */
 
-void ex18(int n = 1000) {
+void ex18(unsigned n = 1000) {
     
     RooWorkspace w("w");
 
@@ -26,24 +26,21 @@ void ex18(int n = 1000) {
 
     RooAbsPdf *g = w.pdf("g");
     RooRealVar *x = w.var("x");
-
+    
     RooDataSet *data = g->generate(*x,n);
     data->SetName("Gaussian data");
 
     RooPlot *pl = x->frame();
     pl->SetTitle("Gaussian model");
     data->plotOn(pl);
-    pl->Draw();
-
+   
     g->fitTo(*data);
 
     g->plotOn(pl);
     pl->Draw();
 
-    std::cout << "fit found" << std::endl;
-
     w.import(*data);
-
+    
     w.Print();
 
     w.writeToFile("Gaussian_data.root", true);

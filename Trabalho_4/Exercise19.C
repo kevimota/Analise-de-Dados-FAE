@@ -5,6 +5,7 @@
 #include "RooAbsPdf.h"
 #include "RooDataSet.h"
 #include "RooPlot.h"
+#include "RooFitResult.h"
 #include <iostream>
 
 using namespace RooFit;
@@ -28,12 +29,9 @@ void ex19() {
     RooPlot *p = x->frame();
 
     data->plotOn(p);
-    p->Draw();
-
-
+    
     RooFitResult *r = g->fitTo(*data, Save(true), Minimizer("Minuit2", "Migrad"), Range(0.,10.));
     g->plotOn(p);
     g->paramOn(p);
     p->Draw();
-
 }

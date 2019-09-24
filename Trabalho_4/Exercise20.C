@@ -5,6 +5,7 @@
 #include "RooAbsPdf.h"
 #include "RooDataSet.h"
 #include "RooPlot.h"
+#include "RooFitResult.h"
 #include <iostream>
 
 using namespace RooFit;
@@ -49,7 +50,7 @@ void ex20() {
 
     RooDataSet data("data", "data", *x, Import(*t));
 
-    RooFitResult *r = model->fitTo(data, Minimizer("Genetic"));
+    RooFitResult *r = model->fitTo(data);
 
     RooPlot *p = x->frame();
     data.plotOn(p);
