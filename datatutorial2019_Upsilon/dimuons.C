@@ -62,8 +62,8 @@ void dimuon::GetSpectrum() {
 
 void dimuon::SaveHisto(TH1F* hist, Int_t log) {
 
-  gStyle->SetOptStat(0);
-  gStyle->SetOptTitle(0);
+  gStyle->SetOptStat(1);
+  gStyle->SetOptTitle(1);
 
   hist->GetXaxis()->SetTitle("#mu^{+}#mu^{-} invariant mass [GeV]");
   hist->GetYaxis()->SetTitle("Events / GeV");
