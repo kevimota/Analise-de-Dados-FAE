@@ -13,7 +13,13 @@
 using namespace TMath;
 
 Double_t signal(Double_t *x, Double_t *par) {
-   return par[0]*exp(-0.5*TMath::Power(((x[0]-par[1])/(par[2])),2)); 
+   Double_t cheb0 = 1;
+   Double_t cheb1 = x[0];
+   Double_t cheb2 = 2*x[0] - 1;
+   Double_t cheb3 = 4*Power(x[0],3) - 3*x[0];
+   Double_t cheb4 = 8*Power(x[0],4) - 8*Power(x[0],2) + 1;
+   return par[0]*cheb0 + par[1]*cheb1 + par[0]*cheb2 + par[1]*cheb3 + par[2]*cheb4;
+   //return par[0]*exp(-0.5*TMath::Power(((x[0]-par[1])/(par[2])),2)); 
 }
 
 Double_t backgr(Double_t *x, Double_t *par) {
@@ -23,10 +29,11 @@ Double_t backgr(Double_t *x, Double_t *par) {
 
 Double_t fitfun(Double_t *x, Double_t *par) {
    //the total PDF function, sum of the above
-   return signal(x,par) + backgr(x,&par[3]); 
+   //return signal(x,par) + backgr(x,&par[3]); 
+   return signal(x,par) + backgr(x,&par[5]); 
 }
 
-void Zanalysis()
+void Zanalysis_cheb()
 {
    TFile *f = new TFile("Zdimion_data.root", "RECREATE");
    TTree *t = new TTree("t","Z->dimuon");
@@ -108,9 +115,9 @@ void Zanalysis()
 
 }
 
-void Zplot()
+void Zplot_cheb()
 {
-   Zanalysis();
+   Zanalysis_cheb();
 
    TCanvas *c = new TCanvas("c", "c", 1440, 900);
    TFile *f = new TFile("Zdimion_data.root");
@@ -125,8 +132,10 @@ void Zplot()
    TH1D *hmu2eta = (TH1D*)f->Get("hmu2eta");
 
    //Fazendo o fit do gráfico da massa invariante do Z0
+   //const Int_t nfitpar = 6; 
    const Int_t nfitpar = 6; 
    TF1 *f1 = new TF1("f1", fitfun, 80,100, nfitpar);
+   //f1->SetParameters(100,90,0.5,0,0,0);
    f1->SetParameters(100,90,0.5,0,0,0);
    hZmcut->Fit(f1);
 
@@ -140,7 +149,8 @@ void Zplot()
    TFitResultPtr r = hZmcut->Fit("f1","V+S","ep");
 
    // Pegar as funções separadamente para representação
-   TF1 *signalFcn = new TF1("signalFcn",signal, 80,100,3);
+   //TF1 *signalFcn = new TF1("signalFcn",signal, 80,100,3);
+   TF1 *signalFcn = new TF1("signalFcn",signal, 80,100,5);
    signalFcn->SetLineColor(kBlue);
    signalFcn->SetNpx(500);
    TF1 *backFcn = new TF1("backFcn",backgr,80,100,3);
@@ -150,6 +160,7 @@ void Zplot()
    signalFcn->SetParameters(par);
    signalFcn->Draw("same");
    
+   //backFcn->SetParameters(&par[3]);
    backFcn->SetParameters(&par[3]);
    backFcn->Draw("same");
 
@@ -165,7 +176,7 @@ void Zplot()
    legend->Draw("same");
 
    // Apresentar dados referentes à massa do Z.
-   TLatex L;
+   /* TLatex L;
    L.SetNDC();
    L.SetTextSize(0.03);
    L.DrawLatex(0.15,0.70,Form("mass: %5.3f #pm %5.3f GeV/c^{2}",
@@ -173,7 +184,7 @@ void Zplot()
    L.DrawLatex(0.15,0.65,Form("width: %5.3f #pm %5.3f GeV/c^{2}", 
                par[2], f1->GetParErrors()[2]));
    L.DrawLatex(0.15,0.60,Form("#chi^{2}: %f", 
-               r->Chi2()));
+               r->Chi2())); */
    c->SaveAs("plots/Zfit.png");
    
    // Desenhar o restante dos gráficos.
