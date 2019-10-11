@@ -167,10 +167,10 @@ void Zplot_bw()
    legend->SetBorderSize(0);
    legend->SetTextFont(40);
    legend->SetTextSize(0.03);
-   legend->AddEntry(hZmcut,"Data","lpe");
+   legend->AddEntry(hZmcut,"MC Data","lpe");
    //legend->AddEntry(backFcn,"Background fit","l");
    legend->AddEntry(signalFcn,"Signal fit","l");
-   //legend->AddEntry(f1,"Global Fit","l");
+   legend->AddEntry(f1,"Global Fit","l");
    legend->Draw("same");
 
    // Apresentar dados referentes à massa do Z.
